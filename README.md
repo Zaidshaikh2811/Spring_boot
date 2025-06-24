@@ -1,4 +1,4 @@
-# 🚀 Java Backend Learning - Spring Boot Journey
+# 🚀 Java Backend Learning - Spring Boot Journey 🚀
 
 Welcome to my repository where I'm learning and building backend applications using **Java** and **Spring Boot**! 🌱
 
