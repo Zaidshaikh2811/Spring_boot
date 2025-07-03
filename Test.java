@@ -1,6 +1,6 @@
 
 import java.util.*;
-class Phone{
+class Phone{ v 
     int price;
     static int model;
 
