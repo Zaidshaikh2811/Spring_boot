@@ -20,7 +20,7 @@ This project documents my learning path, experiments, and mini-projects as I exp
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack 
 
 - **Language:** Java 17+
 - **Framework:** Spring Boot
