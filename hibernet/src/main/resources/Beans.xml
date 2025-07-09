@@ -7,5 +7,14 @@
     <bean id="helloWorld" class="com.child1.HelloWorld" scope="prototype">
         <property name="message" value="Hello Spring!"/>
     </bean>
+    <bean id="student" class="com.child1.Student"  lazy-init="true">
+        <property name="hasLaptop" ref="laptop"/>
+    </bean>
+    <bean id="laptop" class="com.child1.Laptop" lazy-init="true" >
+
+    </bean>
+
+
+
 
 </beans>

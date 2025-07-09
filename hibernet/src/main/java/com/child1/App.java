@@ -22,6 +22,10 @@ public class App {
 
 
         ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+
+
+        HelloWorld obj =context.getBean(HelloWorld.class);
+
 //        HelloWorld helloWorld = (HelloWorld) context.getBean("helloWorld");
 //        helloWorld.getMessage();
 
