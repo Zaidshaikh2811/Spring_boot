@@ -1,5 +1,6 @@
 package com.child1;
 
+import com.child1.config.AppConfig;
 import org.h2.tools.Server;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
@@ -15,16 +17,30 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Hello World!");
 
-        SessionFactory factory = null;
-        Session session = null;
-        Transaction transaction = null;
-        Server webServer = null;
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+        HelloWorld helloWorld = context.getBean("com.child1.HelloWorld",HelloWorld.class);
+        Student student = context.getBean("com.child1.Student",Student.class);
+        Student laptop = context.getBean("com.child1.Laptop",Student.class);
+        System.out.println(student.toString());
+        System.out.println(laptop.toString());
 
 
-        HelloWorld obj =context.getBean(HelloWorld.class);
+
+
+
+
+//        SessionFactory factory = null;
+//        Session session = null;
+//        Transaction transaction = null;
+//        Server webServer = null;
+//
+//
+//        ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+//
+//
+//        HelloWorld obj =context.getBean(HelloWorld.class);
 
 //        HelloWorld helloWorld = (HelloWorld) context.getBean("helloWorld");
 //        helloWorld.getMessage();
