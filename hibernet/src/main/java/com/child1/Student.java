@@ -1,10 +1,12 @@
 package com.child1;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 
 @Entity
 @Table(name = "students")
+@Component
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +25,10 @@ public class Student {
     @JoinColumn(name = "laptop_id", referencedColumnName = "id")
     private Laptop hasLaptop;
 
-    public Student( ) {}
+
 
     // Constructor with parameters
+    public Student() {}
     public Student(String name, String email , Laptop hasLaptop) {
         this.name = name;
         this.email = email;

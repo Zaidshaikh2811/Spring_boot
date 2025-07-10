@@ -2,9 +2,11 @@ package com.child1;
 
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "laptops")
+@Component
 public class Laptop {
 
 

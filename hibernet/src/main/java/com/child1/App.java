@@ -20,11 +20,12 @@ public class App {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
 
-        HelloWorld helloWorld = context.getBean("com.child1.HelloWorld",HelloWorld.class);
-        Student student = context.getBean("com.child1.Student",Student.class);
-        Student laptop = context.getBean("com.child1.Laptop",Student.class);
+        HelloWorld helloWorld1 = context.getBean(HelloWorld.class);
+        HelloWorld helloWorld2 = context.getBean(HelloWorld.class);
+        Student student = context.getBean(Student.class);
+
         System.out.println(student.toString());
-        System.out.println(laptop.toString());
+
 
 
 

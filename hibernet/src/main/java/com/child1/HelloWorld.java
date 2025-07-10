@@ -1,7 +1,9 @@
 package com.child1;
 
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class HelloWorld {
     private String message;
     public HelloWorld() {
