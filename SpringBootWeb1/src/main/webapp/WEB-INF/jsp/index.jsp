@@ -38,9 +38,7 @@
     <script>
         // Example JavaScript code
         console.log("Welcome to My Web Application");
-        document.addEventListener("DOMContentLoaded", function() {
-            alert("Page loaded successfully!");
-        });
+
     </script>
 </body>
 </html>
