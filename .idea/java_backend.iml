@@ -2,7 +2,28 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/JDBC/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/JDBC/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/JDBC/build" />
+      <excludeFolder url="file://$MODULE_DIR$/Maven/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/Maven/maven-child1/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Maven/target" />
+      <excludeFolder url="file://$MODULE_DIR$/SpringBootWeb1/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/SpringBootWeb1/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/SpringBootWeb1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/SpringBoot_First/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/SpringBoot_First/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/SpringBoot_First/build" />
+      <excludeFolder url="file://$MODULE_DIR$/Spring_JDBC/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/Spring_JDBC/target" />
+      <excludeFolder url="file://$MODULE_DIR$/hibernet/target" />
+      <excludeFolder url="file://$MODULE_DIR$/job_portal/target" />
+      <excludeFolder url="file://$MODULE_DIR$/servlet/target" />
+      <excludeFolder url="file://$MODULE_DIR$/spring_auth/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/spring_auth/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/spring_auth/build" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
