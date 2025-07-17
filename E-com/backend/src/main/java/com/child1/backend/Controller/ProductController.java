@@ -73,4 +73,14 @@ public class ProductController {
         }
 
 
+        @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String query) {
+            List<Product> products = productService.searchProducts(query);
+            if (products.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        }
+
+
 }

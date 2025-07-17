@@ -36,6 +36,7 @@ public class ProductService {
      public Product getProductById(int id) {
          return productRepository.findById((long) id).orElse(null);
      }
+
         public Product updateProduct(Product product, int id) {
             Product existingProduct = productRepository.findById((long) id).
                     orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
@@ -52,6 +53,14 @@ public class ProductService {
         public void deleteProduct(int id) {
             productRepository.deleteById((long) id);
 
+        }
+
+        public List<Product> searchProducts (String keyword) {
+            if (keyword == null || keyword.isEmpty()) {
+                return productRepository.findAll();
+            } else {
+                return productRepository.searhProducts(keyword);
+            }
         }
 
 }
