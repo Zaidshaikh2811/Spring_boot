@@ -11,4 +11,6 @@ public interface JobRepo  extends JpaRepository<JobModal, Long> {
 
 
 
+
+
 }
