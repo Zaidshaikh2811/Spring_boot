@@ -1,4 +1,4 @@
-package com.child1;
+package com.child1.modal;
 
 public class Job {
     private String title;
