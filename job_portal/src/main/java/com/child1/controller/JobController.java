@@ -13,6 +13,7 @@ import java.util.List;
 
 
 @Controller
+@CrossOrigin(origins = "http://localhost:3000")
 public class JobController {
 
     private static final Logger log = LoggerFactory.getLogger(JobController.class);
