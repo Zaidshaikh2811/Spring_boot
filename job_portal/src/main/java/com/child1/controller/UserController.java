@@ -1,7 +1,9 @@
 package com.child1.controller;
 
 
+import com.child1.JwtService;
 import com.child1.modal.User;
+import io.jsonwebtoken.JwtBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManage;
+
+
+    @Autowired
+    private JwtService jwtService;
 
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -78,7 +84,11 @@ public class UserController {
                 Authentication authentication = authenticationManage.authenticate(new UsernamePasswordAuthenticationToken(username, password));
                 System.out.println(authentication.isAuthenticated());
                 if(authentication.isAuthenticated()) {
-                    return ResponseEntity.status(HttpStatus.OK ).body("User logged successfully");
+                    System.out.println("User authenticated successfully: " + username);
+                    String token=  jwtService.generateToken(username);
+                    System.out.println("Generated Token: " + token);
+                    return ResponseEntity.status(HttpStatus.OK).body(token )   ;
+
                 }
                 System.out.println("User authenticated successfully: " + username);
             }

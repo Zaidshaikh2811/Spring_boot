@@ -1,5 +1,7 @@
 package com.child1.SecurityConfig;
 
+import com.child1.JwtFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,10 +16,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
 
 
@@ -75,12 +83,16 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/createJob").authenticated()
                         .requestMatchers(HttpMethod.POST, "/createJob").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/user").authenticated()
 
 
                         // All other requests are public
                         .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults()); // enable basic auth
+                .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+        ; // enable basic auth
 
         return http.build();
     }
