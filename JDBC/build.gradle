@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.child1'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Core Spring Boot starter
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // Spring Boot Web (for REST APIs)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Data JPA for Hibernate + JPA annotations (@Entity, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // H2 in-memory database
+    implementation 'com.h2database:h2'
+
+    // Lombok (optional, for @Getter/@Setter/@Data to reduce boilerplate)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // For unit testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
