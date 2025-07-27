@@ -1,0 +1,76 @@
+package com.child1.springsecex.Config;
+
+
+import com.child1.springsecex.service.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(AbstractHttpConfigurer::disable) // Enable CSRF protection with default settings
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/h2-console/**").permitAll() // Allow access to /api/students without authentication
+                .anyRequest().authenticated() // Require authentication for any other request
+            )
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+                .formLogin(Customizer.withDefaults()) // Use default form login
+            .httpBasic(Customizer.withDefaults())
+            .logout(logout -> logout
+                .logoutUrl("/logout") // Custom logout URL
+                .logoutSuccessUrl("/login?logout") // Redirect to login page after logout
+                .permitAll() // Allow everyone to access the logout URL
+            );
+
+        return http.build();
+    }
+
+
+
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//
+//        UserDetails user1 = User.withDefaultPasswordEncoder()
+//                .username("user1")
+//                .password("password1")
+//                .build();
+//        UserDetails user2 = User.withDefaultPasswordEncoder()
+//                .username("user2")
+//                .password("password2")
+//                .build();
+//
+//       return new InMemoryUserDetailsManager(
+//            user1,
+//            user2
+//       );
+//    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setUserDetailsService(userDetailsService);
+
+        return provider;
+    }
+
+}
