@@ -4,7 +4,6 @@ package com.child1.springsecex.controller;
 import com.child1.springsecex.modal.Student;
 import com.child1.springsecex.service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +13,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class StuController {
 
+    private final StudentService studentService;
 
-    @Autowired
-    private StudentService studentService;
-
+    public StuController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
      @GetMapping("/students")
      public List<Student> getAllStudents() {
