@@ -1,13 +1,15 @@
 package com.child1.springsecex.controller;
 
-import com.child1.springsecex.modal.User;
-import com.child1.springsecex.repo.UserRepository;
+import com.child1.springsecex.Dto.UserDto;
+
+import com.child1.springsecex.service.AuthenticationService;
+import com.child1.springsecex.service.MyUserDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,65 +18,46 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    private final MyUserDetailsService userService;
+    private final AuthenticationService authenticationService;
+
+    public UserController(MyUserDetailsService userService, AuthenticationService authenticationService) {
+        this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
+
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public  ResponseEntity<List<UserDto.Response>> getAllUsers() {
+
+        List<UserDto.Response> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/users/{username}")
-    public User getUser(@PathVariable String username) {
-        return userRepository.findById(username).orElse(null);
+    public ResponseEntity<UserDto.Response> getUser(@PathVariable String username) {
+        UserDto.Response user = userService.getUserByUsername(username);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return ResponseEntity.ok(userRepository.save(user));
-    }
-
-    public static class LoginRequest {
-        public String username;
-        public String password;
+    public ResponseEntity<UserDto.Response> registerUser(@Valid @RequestBody UserDto.RegisterRequest  request) {
+        UserDto.Response user = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
 
     }
+
+
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        String username = loginRequest.username;
-        String password = loginRequest.password;
-        User user = userRepository.findByUsername(username);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
+    public ResponseEntity<UserDto.LoginResponse> login(@Valid @RequestBody UserDto.LoginRequest loginRequest) {
+        System.out.println("Received login request for user: " + loginRequest.getUsername());
+        UserDto.LoginResponse response = authenticationService.authenticate(loginRequest);
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/users/{username}")
-    public void deleteUser(@PathVariable String username) {
-        userRepository.deleteById(username);
-    }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        String errorMsg = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .findFirst()
-                .orElse("Validation error");
-        return ResponseEntity.badRequest().body(errorMsg);
-    }
 
 
 
