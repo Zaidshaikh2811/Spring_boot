@@ -48,8 +48,10 @@ public class MyUserDetailsService implements UserDetailsService {
         log.debug("Creating new user with username: {}", request.getUsername());
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new UserAlreadyExistsException("User already exists with username: " + request.getUsername());
+            log.warn("User with username {} already exists", request.getUsername());
+            throw new IllegalArgumentException("User with this username already exists");
         }
+
 
         User user = User.builder()
                 .username(request.getUsername())

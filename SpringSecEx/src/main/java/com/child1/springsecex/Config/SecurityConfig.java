@@ -1,7 +1,9 @@
 package com.child1.springsecex.Config;
 
 
-import com.child1.springsecex.service.MyUserDetailsService;
+
+import com.child1.springsecex.service.JwtAuthenticationFilter;
+import com.child1.springsecex.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +21,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
 
     @Bean
@@ -32,15 +41,20 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable) // Enable CSRF protection with default settings
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**", "/api/login", "/api/register", "/login", "/register","/actuator/health").permitAll() // Allow access to h2-console, login, and register endpoints (both /api/* and /*) without authentication
-                .anyRequest().authenticated() // Require authentication for any other request
+                .anyRequest().authenticated(
+
+                    ) // Require authentication for any other request
             )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .formLogin(Customizer.withDefaults()) // Use default form login
             .httpBasic(Customizer.withDefaults())
+
             .logout(logout -> logout
                 .logoutUrl("/logout") // Custom logout URL
                 .logoutSuccessUrl("/login?logout") // Redirect to login page after logout
                 .permitAll() // Allow everyone to access the logout URL
+            ).addFilterBefore(
+                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
             );
 
         return http.build();
@@ -48,23 +62,8 @@ public class SecurityConfig {
 
 
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//
-//        UserDetails user1 = User.withDefaultPasswordEncoder()
-//                .username("user1")
-//                .password("password1")
-//                .build();
-//        UserDetails user2 = User.withDefaultPasswordEncoder()
-//                .username("user2")
-//                .password("password2")
-//                .build();
-//
-//       return new InMemoryUserDetailsManager(
-//            user1,
-//            user2
-//       );
-//    }
+
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(@Lazy UserDetailsService userDetailsService , PasswordEncoder passwordEncoder) {
