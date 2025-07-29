@@ -41,9 +41,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable) // Enable CSRF protection with default settings
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**", "/api/login", "/api/register", "/login", "/register","/actuator/health").permitAll() // Allow access to h2-console, login, and register endpoints (both /api/* and /*) without authentication
-                .anyRequest().authenticated(
-
-                    ) // Require authentication for any other request
+                .anyRequest().authenticated()
             )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .formLogin(Customizer.withDefaults()) // Use default form login

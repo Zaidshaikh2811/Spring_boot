@@ -28,8 +28,6 @@ public class AuthenticationService {
     public UserDto.LoginResponse authenticate(UserDto.LoginRequest loginRequest) {
         try {
 
-            log.debug("Attempting authentication for user: {}", loginRequest.getPassword());
-
 
 
             Authentication authentication = authenticationManager.authenticate(
