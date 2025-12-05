@@ -63,3 +63,6 @@ Thumbs.db
 # ---------------------------------------
 # Environment / Secrets Files
 # -----------------
+application-local.properties
+application-*-secret.properties
+.env

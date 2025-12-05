@@ -63,7 +63,7 @@ public class StudentDaoImp implements StudentDao {
         return em.find(Student.class, phone);
     }
 
-
+    @Override
     public Student queryStudent(String name){
         return em.createQuery("from Student s where s.name=:name", Student.class).setParameter("name", name).getSingleResult();
 

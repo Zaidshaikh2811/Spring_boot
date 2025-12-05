@@ -16,7 +16,7 @@ public class CricketCoach implements Coach {
         }
 
 
-    public String getDailyWorkout() {
+     public String getDailyWorkout() {
         return "Yor Daily Workout :-)";
     }
 

@@ -14,4 +14,5 @@ public interface StudentDao {
       Student findStudentByName(String name);
       Student findStudentByEmail(String email);
       Student findStudentByPhone(String phone);
+      Student queryStudent (String name);
 }
