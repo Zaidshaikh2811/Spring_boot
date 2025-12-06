@@ -33,10 +33,13 @@ public class RestControllerApplication {
             System.out.println("hello world");
 //            studentDaoImp.saveStudent(new Student("apple","cook","appleCook3@apple.com"));
 //                student.createMultipleStudents();
-            List<Student> stu=studentDaoImp.findAllStudents();
-                for (Student s: stu) {
-                    System.out.println(s);
-                }
+
+//            Student stu=studentDaoImp.findStudentById("123");
+//            System.out.println(stu);
+//            List<Student> stu=studentDaoImp.findAllStudents();
+//                for (Student s: stu) {
+//                    System.out.println(s);
+//                }
 
         };
     }
