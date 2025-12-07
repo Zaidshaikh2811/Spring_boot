@@ -3,6 +3,7 @@ package com.child1.rest_controller;
 import com.child1.rest_controller.DAO.StudentDao;
 import com.child1.rest_controller.DAO.imp.StudentDaoImp;
 import com.child1.rest_controller.model.Student;
+import com.child1.rest_controller.service.imp.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +15,7 @@ import java.util.List;
 @SpringBootApplication
 public class RestControllerApplication {
     private final StudentDaoImp studentDaoImp;
+    private final StudentService studentService;
 
 
 	public static void main(String[] args) {
@@ -22,8 +24,9 @@ public class RestControllerApplication {
 
 
     @Autowired
-    public  RestControllerApplication(StudentDaoImp studentDaoImp ) {
+    public  RestControllerApplication(StudentDaoImp studentDaoImp,StudentService studentService ) {
         this.studentDaoImp = studentDaoImp;
+        this.studentService = studentService;
 
     }
 
@@ -32,7 +35,7 @@ public class RestControllerApplication {
         return lambda ->{
             System.out.println("hello world");
 //            studentDaoImp.saveStudent(new Student("apple","cook","appleCook3@apple.com"));
-//                student.createMultipleStudents();
+//            studentService.createMultipleStudents();
 
 //            Student stu=studentDaoImp.findStudentById("123");
 //            System.out.println(stu);
