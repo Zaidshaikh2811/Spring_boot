@@ -24,8 +24,8 @@ public class SecurityConfig {
 
             http.authorizeHttpRequests(authorizeRequests ->
                     authorizeRequests
-                            .requestMatchers(HttpMethod.GET,"/students").hasRole("USER")
-                            .requestMatchers(HttpMethod.GET,"/students/**").hasRole("USER")
+                            .requestMatchers(HttpMethod.GET,"/students").hasAnyRole("USER", "ADMIN","MANAGER")
+                            .requestMatchers(HttpMethod.GET,"/students/**").hasAnyRole("USER", "ADMIN","MANAGER")
                             .requestMatchers(HttpMethod.POST,"/students").permitAll()
                             .requestMatchers(HttpMethod.PUT,"/students/**").hasRole("MANAGER")
                             .requestMatchers(HttpMethod.DELETE,"/students/**").hasRole("ADMIN")

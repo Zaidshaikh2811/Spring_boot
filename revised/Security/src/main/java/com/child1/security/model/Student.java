@@ -1,13 +1,10 @@
 package com.child1.security.model;
 
 
+import com.child1.security.model.CustomAnotation.ValidRole;
 import jakarta.persistence.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import jakarta.validation.constraints.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.List;
-import java.util.UUID;
-
 @Entity
 @Table(name="student")
 public class Student {
@@ -17,16 +14,36 @@ public class Student {
 
 
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
+    @NotBlank(message = "First Name is Required")
+    @Size(min = 2, max = 30, message = "First name must be 2–30 characters")
     private String name;
-    @Column(name = "last_name")
+
+    @Column(name = "last_name",nullable = false)
+    @NotBlank(message = "LastName name is required")
+    @Size(min = 2, max = 30, message = "Last name must be 2–30 characters")
     private String surname;
-    @Column(unique = true)
+
+    @Column(unique = true,nullable = false)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
-    @Column(name="role")
+
+
+    @Column(name="role", nullable = false)
+    @NotBlank(message = "Role is required")
+    @ValidRole
     private String role;
-    @Column(name="password")
+
+    @Column(name="password", nullable = false)
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    @Pattern(
+            regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$",
+            message = "Password must contain 1 capital letter, 1 number, 1 special character"
+    )
     private String password;
+
 
     public Student() {
 
