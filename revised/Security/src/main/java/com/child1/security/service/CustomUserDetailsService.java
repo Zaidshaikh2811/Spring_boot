@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         List<SimpleGrantedAuthority> authorities =
                 List.of(new SimpleGrantedAuthority("ROLE_" + stu.getRole()));
-        System.out.println("Authorities: " + authorities);
+
         return  new User(stu.getEmail(),stu.getPassword(),authorities);
 
 

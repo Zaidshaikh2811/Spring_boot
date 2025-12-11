@@ -22,14 +22,14 @@ public class DummyData {
                     "password",
                     "USER"
             );
- Student Manager = new Student(
+            Student Manager = new Student(
                     "Manager",
                     "Manager",
                     "Manager@gmail.com",
                     "password",
                     "MANAGER"
             );
- Student admin = new Student(
+            Student admin = new Student(
                     "admin",
                     "admin",
                     "admin@gmail.com",
@@ -40,8 +40,6 @@ public class DummyData {
             studentRepo.save(student);
             studentRepo.save(Manager);
             studentRepo.save(admin);
-
-            System.out.println("✅ Test user inserted into DB");
 
     };
 
