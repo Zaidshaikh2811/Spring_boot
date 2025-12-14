@@ -44,6 +44,9 @@ public class Student {
     )
     private String password;
 
+    @OneToOne(mappedBy = "studentId", cascade = CascadeType.ALL)
+    private Department department;
+
 
     public Student() {
 
