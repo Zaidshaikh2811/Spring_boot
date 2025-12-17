@@ -18,4 +18,6 @@ public class RoleValidator implements ConstraintValidator<ValidRole, String> {
 
         return ALLOWED.contains(value.toUpperCase());
     }
+
+
 }

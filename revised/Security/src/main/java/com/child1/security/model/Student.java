@@ -97,6 +97,12 @@ public class Student {
         this.password = password;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     @PrePersist
     @PreUpdate

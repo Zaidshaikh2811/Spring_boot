@@ -24,4 +24,33 @@ public class Department {
             nullable = false)
     private Student studentId;
 
+
+
+
+    public Department() {
+    }
+    public Department(String name, Student studentId) {
+        this.name = name;
+        this.studentId = studentId;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Student getStudentId() {
+        return studentId;
+    }
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
+    }
+
+
 }

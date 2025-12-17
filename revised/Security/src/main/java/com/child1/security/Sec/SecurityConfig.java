@@ -22,16 +22,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-            http.authorizeHttpRequests(authorizeRequests ->
-                    authorizeRequests
-                            .requestMatchers(HttpMethod.GET,"/students").hasAnyRole("USER", "ADMIN","MANAGER")
-                            .requestMatchers(HttpMethod.GET,"/students/**").hasAnyRole("USER", "ADMIN","MANAGER")
-                            .requestMatchers(HttpMethod.POST,"/students").permitAll()
-                            .requestMatchers(HttpMethod.PUT,"/students/**").hasRole("MANAGER")
-                            .requestMatchers(HttpMethod.DELETE,"/students/**").hasRole("ADMIN")
-                    )
-                    .csrf(csrf -> csrf.disable())
-                    .httpBasic(org.springframework.security.config.Customizer.withDefaults());
+//            http.authorizeHttpRequests(authorizeRequests ->
+//                    authorizeRequests
+//                            .requestMatchers(HttpMethod.GET,"/students").hasAnyRole("USER", "ADMIN","MANAGER")
+//                            .requestMatchers(HttpMethod.GET,"/students/**").hasAnyRole("USER", "ADMIN","MANAGER")
+//                            .requestMatchers(HttpMethod.POST,"/students").permitAll()
+//                            .requestMatchers(HttpMethod.PUT,"/students/**").hasRole("MANAGER")
+//                            .requestMatchers(HttpMethod.DELETE,"/students/**").hasRole("ADMIN")
+//                    )
+//                    .csrf(csrf -> csrf.disable())
+//                    .httpBasic(org.springframework.security.config.Customizer.withDefaults());
+        http.authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/user").authenticated()
+                                .anyRequest().permitAll()
+                )
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(org.springframework.security.config.Customizer.withDefaults());
 
             return http.build();
 
