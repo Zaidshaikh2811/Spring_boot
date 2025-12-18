@@ -20,36 +20,34 @@ public class DummyData  {
 
 
 //    @Bean
-    public void AddData() {
-
-
-            Student student = new Student(
-                    "new",
-                    "user",
-                    "new-user@gmail.com",
-                    "password",
-                    "USER"
-            );
-            Student Manager = new Student(
-                    "Manager",
-                    "Manager",
-                    "Manager@gmail.com",
-                    "password",
-                    "MANAGER"
-            );
-            Student admin = new Student(
-                    "admin",
-                    "admin",
-                    "admin@gmail.com",
-                    "password",
-                    "ADMIN"
-            );
-
-            studentRepo.save(student);
-            studentRepo.save(Manager);
-            studentRepo.save(admin);
-
-    };
+//    public void AddData() {
+//            Student student = new Student(
+//                    "new",
+//                    "user",
+//                    "new-user@gmail.com",
+//                    "password",
+//                    "USER"
+//            );
+//            Student Manager = new Student(
+//                    "Manager",
+//                    "Manager",
+//                    "Manager@gmail.com",
+//                    "password",
+//                    "MANAGER"
+//            );
+//            Student admin = new Student(
+//                    "admin",
+//                    "admin",
+//                    "admin@gmail.com",
+//                    "password",
+//                    "ADMIN"
+//            );
+//
+//            studentRepo.save(student);
+//            studentRepo.save(Manager);
+//            studentRepo.save(admin);
+//
+//    };
 
 //    @Override
 //    public void run(String... args) {

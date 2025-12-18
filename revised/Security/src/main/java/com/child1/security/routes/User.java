@@ -9,10 +9,9 @@ import com.child1.security.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class User {
@@ -32,5 +31,11 @@ public class User {
     public ResponseEntity<StudentResponseDto> addStudentController(@Valid @RequestBody StudentRequestDto student){
         StudentResponseDto responseDto = studentService.addStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
+
+    @GetMapping("/students")
+    public ResponseEntity<List<StudentResponseDto>> getStudents() {
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.getAllStudents());
     }
 }

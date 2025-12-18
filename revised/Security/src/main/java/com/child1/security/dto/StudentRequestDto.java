@@ -1,5 +1,6 @@
 package com.child1.security.dto;
 
+import com.child1.security.model.CustomAnotation.ValidRole;
 import com.child1.security.model.Department;
 import jakarta.validation.constraints.*;
 
@@ -24,9 +25,11 @@ public class StudentRequestDto {
     )
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "Role is required")
+    @ValidRole()
     private String role;
 
+    @NotBlank(message = "Department name is required")
     private String  department_name;
 
     public String getSurname() {
