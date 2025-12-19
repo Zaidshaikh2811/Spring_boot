@@ -72,6 +72,23 @@ public class StudentService {
 
         }
 
+        @Transactional
+        public void deleteStudent(int studentId){
+        if(!studentRepo.existsById(studentId)) {
+            throw new IllegalStateException("student with id " + studentId + " does not exist");
+        } else {
+            studentRepo.deleteById(studentId);
+        }
 
+        }
+
+    @Transactional
+    public void deleteStudentWithReason(int studentId, String reason){
+        if(!studentRepo.existsById(studentId)) {
+            throw new IllegalStateException("student with id " + studentId + " does not exist");
+        } else {
+            studentRepo.deleteById(studentId);
+        }
+    }
 
 }

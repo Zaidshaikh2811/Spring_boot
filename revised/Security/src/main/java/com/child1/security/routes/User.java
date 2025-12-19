@@ -3,8 +3,6 @@ package com.child1.security.routes;
 
 import com.child1.security.dto.StudentRequestDto;
 import com.child1.security.dto.StudentResponseDto;
-import com.child1.security.model.Student;
-import com.child1.security.repository.StudentRepo;
 import com.child1.security.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,5 +35,18 @@ public class User {
     @GetMapping("/students")
     public ResponseEntity<List<StudentResponseDto>> getStudents() {
         return ResponseEntity.status(HttpStatus.OK).body(studentService.getAllStudents());
+    }
+
+
+    @DeleteMapping("/students/{studentId}")
+    public ResponseEntity<String> deleteString(@PathVariable int studentId){
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.status(HttpStatus.OK).body("Student deleted successfully");
+    }
+
+    @DeleteMapping("/students/deleteWithReason/{studentId}" )
+    public ResponseEntity<String> deleteStudentWithReason(@PathVariable int studentId, @RequestParam String reason){
+        studentService.deleteStudentWithReason(studentId, reason);
+        return ResponseEntity.status(HttpStatus.OK).body("Student deleted successfully for reason: " + reason);
     }
 }
