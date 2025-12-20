@@ -2,10 +2,7 @@ package com.child1.security.aspect;
 
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -64,6 +61,11 @@ public class Logging {
     }
 
 
-
+    @AfterReturning(value = "execution(* com.child1.security.service.StudentService.getAllStudents(..))",returning = "result")
+    public void logAfterReturningGetAllStudents( Object result) {
+        for(Object obj : (Iterable<?>) result){
+            System.out.println("Returned Student: " + obj.toString());
+        }
+    }
 
 }

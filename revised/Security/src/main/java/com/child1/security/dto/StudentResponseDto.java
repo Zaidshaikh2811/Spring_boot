@@ -1,6 +1,6 @@
 package com.child1.security.dto;
 
-import com.child1.security.model.Department;
+
 
 public class StudentResponseDto {
 
@@ -69,5 +69,15 @@ public class StudentResponseDto {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "StudentResponseDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", department='" + department + '\'' +
+                '}';
+    }
 }
