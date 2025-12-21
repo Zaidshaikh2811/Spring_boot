@@ -24,6 +24,7 @@ public class StudentService {
 
     public List<StudentResponseDto> getAllStudents() {
         List<Student> students = studentRepo.findAll();
+        System.out.println("Fetched students: " + students);
 
         return students.stream().map(student -> new StudentResponseDto(
                 student.getId(),

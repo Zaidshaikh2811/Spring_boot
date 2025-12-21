@@ -1,9 +1,15 @@
 package com.child1.security.aspect;
 
 
+import com.child1.security.dto.StudentResponseDto;
+import com.child1.security.model.Student;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Aspect
 @Component
@@ -29,6 +35,7 @@ public class Logging {
     public void deleteStudentWithReasonPointcut() { }
 
 
+    @Order(1)
     @Before("deleteStudentWithReasonPointcut()")
     public void logBeforeDeleteStudentWithReason(JoinPoint joinPoint) {
         System.out.println("deleteStudentWithReason method is about to be executed.");
@@ -61,11 +68,27 @@ public class Logging {
     }
 
 
-    @AfterReturning(value = "execution(* com.child1.security.service.StudentService.getAllStudents(..))",returning = "result")
-    public void logAfterReturningGetAllStudents( Object result) {
-        for(Object obj : (Iterable<?>) result){
-            System.out.println("Returned Student: " + obj.toString());
+//    @AfterReturning(value = "execution(* com.child1.security.service.StudentService.getAllStudents(..))",returning = "result")
+//    public void logAfterReturningGetAllStudents( List<StudentResponseDto> result) {
+//        for(Student student : result) {
+//            student.setName("TESTED_"+student.getName());
+//        }
+
+    @Order(2)
+    @Around(value = "execution(* com.child1.security.service.StudentService.getAllStudents(..))")
+    public Object logAfterReturningGetAllStudents(JoinPoint joinPoint) throws Throwable {
+        System.out.println("getAllStudents method has been executed.");
+        ProceedingJoinPoint pjp = (ProceedingJoinPoint) joinPoint;
+        Object result = pjp.proceed();
+        System.out.println(result   );
+        List<StudentResponseDto> students = (List<StudentResponseDto>) result;
+        for(StudentResponseDto student : students) {
+            student.setName("TESTED_"+student.getName());
         }
+        System.out.println("Modified Result: " + students);
+
+        return students;
+
     }
 
 }
