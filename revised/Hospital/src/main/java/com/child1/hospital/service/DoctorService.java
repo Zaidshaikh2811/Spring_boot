@@ -1,0 +1,17 @@
+package com.child1.hospital.service;
+
+
+import com.child1.hospital.dto.request.DoctorRequest;
+import com.child1.hospital.dto.response.DoctorResponse;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+public interface DoctorService {
+    DoctorResponse createDoctor(DoctorRequest request);
+    DoctorResponse getDoctorById(Long id);
+    List<DoctorResponse> getAllDoctors();
+    DoctorResponse updateDoctor(Long id, DoctorRequest request);
+    void deleteDoctor(Long id);
+}
