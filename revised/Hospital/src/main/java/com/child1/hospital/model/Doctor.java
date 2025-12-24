@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -31,4 +33,12 @@ public class Doctor {
     @Size(min = 2, max = 100, message = "Specialty can have at most 100 characters")
     private String specialty;
 
+    @Column(name = "appointments")
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments;
+
+    public void addAppointment(Appointment entity) {
+        appointments.add(entity);
+        entity.setDoctor(this);
+    }
 }

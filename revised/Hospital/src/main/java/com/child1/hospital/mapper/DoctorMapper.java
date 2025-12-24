@@ -1,48 +1,58 @@
-package com.child1.hospital.mapper;
+    package com.child1.hospital.mapper;
 
 
-import com.child1.hospital.dto.request.DoctorRequest;
-import com.child1.hospital.dto.response.DoctorResponse;
-import com.child1.hospital.model.Doctor;
-import org.springframework.stereotype.Component;
+    import com.child1.hospital.dto.request.AppointmentRequest;
+    import com.child1.hospital.dto.request.DoctorRequest;
+    import com.child1.hospital.dto.response.DoctorResponse;
+    import com.child1.hospital.model.Appointment;
+    import com.child1.hospital.model.Doctor;
+    import org.springframework.stereotype.Component;
 
-import java.util.List;
+    import java.util.List;
 
-@Component
-public class DoctorMapper {
+    @Component
+    public class DoctorMapper {
 
-    public DoctorResponse doctorToDoctorResponse(Doctor doctor){
-        DoctorResponse response=new DoctorResponse();
-        response.setId(doctor.getId());
-        response.setName(doctor.getName());
-        response.setSpecialty(doctor.getSpecialty());
-        return response;
+        private final AppointmentMapper appointmentMapper;
+
+        public DoctorMapper(AppointmentMapper appointmentMapper) {
+            this.appointmentMapper = appointmentMapper;
+        }
+
+        // Entity → Response
+        public DoctorResponse toDoctorResponse(Doctor doctor) {
+            DoctorResponse response = new DoctorResponse();
+            response.setId(doctor.getId());
+            response.setName(doctor.getName());
+            response.setSpecialty(doctor.getSpecialty());
+
+            if (doctor.getAppointments() != null) {
+                response.setAppointments(
+                        doctor.getAppointments()
+                                .stream()
+                                .map(appointmentMapper::toResponse)
+                                .toList()
+                );
+            } else {
+                response.setAppointments(List.of());
+            }
+
+            return response;
+        }
+
+        // Request → Entity
+        public Doctor toEntity(DoctorRequest request) {
+            Doctor doctor = new Doctor();
+            doctor.setName(request.getName());
+            doctor.setSpecialty(request.getSpecialty());
+            return doctor;
+        }
+
+        // List mapping
+        public List<DoctorResponse> toDoctorResponses(List<Doctor> doctors) {
+            return doctors.stream()
+                    .map(this::toDoctorResponse)
+                    .toList();
+        }
+
     }
-
-    public Doctor doctorResponseToDoctor(DoctorResponse response){
-        Doctor doctor=new Doctor();
-        doctor.setId(response.getId());
-        doctor.setName(response.getName());
-        doctor.setSpecialty(response.getSpecialty());
-        return doctor;
-    }
-
-    public DoctorResponse doctorToDoctorResponseSimple(Doctor doctor){
-        DoctorResponse response=new DoctorResponse();
-        response.setId(doctor.getId());
-        response.setName(doctor.getName());
-        return response;
-    }
-
-    public Doctor toEntity(DoctorRequest request){
-        Doctor doctor=new Doctor();
-        doctor.setName(request.getName());
-        doctor.setSpecialty(request.getSpecialty());
-        return doctor;
-    }
-
-
-    public List<DoctorResponse> doctorsToDoctorResponses(List<Doctor> doctors) {
-        return doctors.stream().map(this::doctorToDoctorResponse).toList();
-    }
-}

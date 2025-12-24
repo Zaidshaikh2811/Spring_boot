@@ -1,6 +1,7 @@
 package com.child1.hospital.controller;
 
 
+import com.child1.hospital.dto.request.AppointmentRequest;
 import com.child1.hospital.dto.request.DoctorRequest;
 import com.child1.hospital.dto.response.DoctorResponse;
 import com.child1.hospital.model.Doctor;
@@ -22,12 +23,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DoctorController {
 
-    DoctorService doctorService;
+    private final DoctorService doctorService;
 
     @GetMapping("/")
-    public ResponseEntity<List<DoctorResponse>> home(@PathParam("page") String page) {
+    public ResponseEntity<List<DoctorResponse>> home(@RequestParam(required = false) Integer  page) {
         List<DoctorResponse> doctorResponse = doctorService.getAllDoctors();
         return ResponseEntity.status(HttpStatus.OK).body(doctorResponse);
+    }
+
+    @GetMapping("/appointments")
+    public ResponseEntity<List<DoctorResponse>> getAllAppoitments(){
+        List<DoctorResponse> appointments= doctorService.getAllAppointments();
+        return ResponseEntity.status(HttpStatus.OK).body(appointments);
+    }
+
+    @PostMapping("/{doctorId}/appointments")
+    public ResponseEntity<String> createAppointment(@PathVariable Long doctorId , @Valid   @RequestBody AppointmentRequest request) {
+        doctorService.createAppointment(doctorId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Appointment created successfully for doctor id: " + doctorId);
     }
 
     @PostMapping("/")

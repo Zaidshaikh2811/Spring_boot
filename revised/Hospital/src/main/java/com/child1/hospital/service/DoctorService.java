@@ -1,8 +1,10 @@
 package com.child1.hospital.service;
 
 
+import com.child1.hospital.dto.request.AppointmentRequest;
 import com.child1.hospital.dto.request.DoctorRequest;
 import com.child1.hospital.dto.response.DoctorResponse;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,4 +16,6 @@ public interface DoctorService {
     List<DoctorResponse> getAllDoctors();
     DoctorResponse updateDoctor(Long id, DoctorRequest request);
     void deleteDoctor(Long id);
+    List<DoctorResponse> getAllAppointments();
+    void createAppointment(Long doctorId, @Valid AppointmentRequest request);
 }
