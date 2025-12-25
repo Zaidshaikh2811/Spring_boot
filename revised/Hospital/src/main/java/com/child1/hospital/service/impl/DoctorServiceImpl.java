@@ -7,12 +7,15 @@ import com.child1.hospital.exception.ResourceNotFoundException;
 import com.child1.hospital.mapper.AppointmentMapper;
 import com.child1.hospital.mapper.DoctorMapper;
 import com.child1.hospital.model.Doctor;
+import com.child1.hospital.model.Patient;
 import com.child1.hospital.repository.DoctorRepository;
+import com.child1.hospital.repository.PatientRepository;
 import com.child1.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,7 @@ import java.util.List;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
     private final DoctorMapper doctorMapper;
     private final AppointmentMapper appointmentMapper;
 
@@ -43,7 +47,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     @Transactional(readOnly = true)
     public List<DoctorResponse> getAllDoctors(){
-        List<Doctor> doctors = doctorRepository.findAll();
+        List<Doctor> doctors =  doctorRepository.getAllDoctors();
         return doctorMapper.toDoctorResponses(doctors);
     }
     @Override
@@ -64,7 +68,8 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<DoctorResponse> getAllAppointments() {
-        return doctorRepository.findAll()
+        List<Doctor> doctors = doctorRepository.findAll();
+                return doctors
                 .stream()
                 .map(doctorMapper::toDoctorResponse)
                 .toList();
@@ -74,11 +79,14 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public void createAppointment(Long doctorId, AppointmentRequest request) {
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()-> new ResourceNotFoundException("Doctor not found"));
+        Patient patient = patientRepository.findById(request.getPatientId())
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + request.getPatientId()));
+
         if (doctor.getAppointments() == null) {
             doctor.setAppointments(new ArrayList<>());
         }
         doctor.addAppointment(
-                appointmentMapper.toEntity(request, doctor)
+                appointmentMapper.toEntity(request, doctor,patient)
         );
         doctorRepository.save(doctor);
     }

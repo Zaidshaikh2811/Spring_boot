@@ -25,8 +25,8 @@ public class DoctorController {
 
     private final DoctorService doctorService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<DoctorResponse>> home(@RequestParam(required = false) Integer  page) {
+    @GetMapping
+    public ResponseEntity<List<DoctorResponse>> getAllDoctors(@RequestParam(required = false) Integer  page) {
         List<DoctorResponse> doctorResponse = doctorService.getAllDoctors();
         return ResponseEntity.status(HttpStatus.OK).body(doctorResponse);
     }
@@ -43,7 +43,7 @@ public class DoctorController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Appointment created successfully for doctor id: " + doctorId);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<String> createDoctor(@Valid  @RequestBody DoctorRequest request) {
        DoctorResponse doctor=   doctorService.createDoctor(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("Doctor created successfully with id: " + doctor.getId());

@@ -9,5 +9,5 @@ import lombok.Setter;
 public class AppointmentRequest {
     private String patientName;
     private String appointmentTime;
-
+    private Integer patientId;
 }

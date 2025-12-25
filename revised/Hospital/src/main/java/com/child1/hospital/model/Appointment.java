@@ -17,7 +17,10 @@ public class Appointment {
     private Long id;
 
     private LocalDateTime appointmentTime;
-    private String patientName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patientName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
