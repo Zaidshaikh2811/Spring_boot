@@ -1,68 +1,39 @@
 package com.child1.hospital.config;
 
 
+import com.child1.hospital.filters.JwtFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-
+    private final JwtFilter JwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf->csrf.disable())
-//                .formLogin(Customizer.withDefaults())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/v1/patients/**").hasAnyRole("PATIENT", "DOCTOR", "ADMIN")
-//                        .requestMatchers("/api/v1/doctors/**").hasAnyRole("DOCTOR", "ADMIN")
-//                        .requestMatchers("/api/v1/admins/**").hasRole("ADMIN")
-//                        .anyRequest().permitAll()
-//                );
 
-        http.csrf( csrf -> csrf.disable())
+
+        http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .anyRequest().permitAll()
+//                    .anyRequest().permitAll()
+                            .requestMatchers(HttpMethod.GET, "/").permitAll()
             )
+            .addFilterBefore(JwtFilter, UsernamePasswordAuthenticationFilter.class)
             .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
 
-
-
-
-
-
-
-//    @Bean
-//    UserDetailsService userDetailsService() {
-//        UserDetails user1 = User
-//                .withUsername("patient")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("Patient")
-//                .build();
-//
-//        UserDetails user2 = User
-//                .withUsername("Doctor")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("DOCTOR")
-//                .build();
-//
-//        UserDetails user3 = User
-//                .withUsername("Admin")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("ADMIN")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager( user1, user2, user3);
-//    }
 }

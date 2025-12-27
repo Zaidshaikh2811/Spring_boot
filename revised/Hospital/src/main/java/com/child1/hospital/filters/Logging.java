@@ -1,4 +1,4 @@
-package com.child1.hospital.config;
+package com.child1.hospital.filters;
 
 import jakarta.servlet.*;
 import org.springframework.stereotype.Component;

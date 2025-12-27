@@ -1,4 +1,4 @@
-package com.child1.hospital.config;
+package com.child1.hospital.utils;
 
 import com.child1.hospital.model.Admin;
 import com.child1.hospital.repository.AdminRepository;
