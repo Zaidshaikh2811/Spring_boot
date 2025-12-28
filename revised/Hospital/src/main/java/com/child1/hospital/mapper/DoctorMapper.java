@@ -6,6 +6,7 @@
     import com.child1.hospital.dto.response.DoctorResponse;
     import com.child1.hospital.model.Appointment;
     import com.child1.hospital.model.Doctor;
+    import org.springframework.data.domain.Page;
     import org.springframework.stereotype.Component;
 
     import java.util.List;
@@ -53,6 +54,11 @@
             return doctors.stream()
                     .map(this::toDoctorResponse)
                     .toList();
+        }
+
+
+        public Page<DoctorResponse> toPageDoctorResponses(Page<Doctor> doctors) {
+            return doctors.map(this::toDoctorResponse);
         }
 
     }

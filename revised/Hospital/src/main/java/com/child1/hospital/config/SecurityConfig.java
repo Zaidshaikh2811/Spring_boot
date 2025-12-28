@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,10 +27,15 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
 //                    .anyRequest().permitAll()
-                            .requestMatchers(HttpMethod.GET, "/").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+                            .requestMatchers("/actuator/**").permitAll()
+                            .requestMatchers("/metrics").permitAll()
+                            .requestMatchers("/health/**").permitAll()
+                            .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/prometheus").permitAll()
+                    .anyRequest().authenticated()
             )
-            .addFilterBefore(JwtFilter, UsernamePasswordAuthenticationFilter.class)
-            .formLogin(Customizer.withDefaults());
+            .addFilterBefore(JwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

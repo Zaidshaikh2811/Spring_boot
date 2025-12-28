@@ -8,9 +8,12 @@ import com.child1.hospital.model.Doctor;
 import com.child1.hospital.repository.DoctorRepository;
 import com.child1.hospital.service.DoctorService;
 import com.child1.hospital.service.impl.DoctorServiceImpl;
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,9 +28,16 @@ public class DoctorController {
 
     private final DoctorService doctorService;
 
+
+    @PostConstruct
+    public void init() {
+        System.out.println("DoctorController initialized");
+    }
+
     @GetMapping
-    public ResponseEntity<List<DoctorResponse>> getAllDoctors(@RequestParam(required = false) Integer  page) {
-        List<DoctorResponse> doctorResponse = doctorService.getAllDoctors();
+    public ResponseEntity<Page<DoctorResponse>> getAllDoctors(Pageable pageable ) {
+        System.out.println(pageable);
+        Page<DoctorResponse> doctorResponse = doctorService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(doctorResponse);
     }
 

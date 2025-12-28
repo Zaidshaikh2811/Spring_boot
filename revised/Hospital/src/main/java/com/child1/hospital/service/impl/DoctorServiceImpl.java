@@ -12,6 +12,11 @@ import com.child1.hospital.repository.DoctorRepository;
 import com.child1.hospital.repository.PatientRepository;
 import com.child1.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +27,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DoctorServiceImpl implements DoctorService {
+@Transactional
+@Primary
+public class DoctorServiceImpl implements DoctorService , InitializingBean , DisposableBean {
 
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
@@ -30,7 +37,6 @@ public class DoctorServiceImpl implements DoctorService {
     private final AppointmentMapper appointmentMapper;
 
     @Override
-    @Transactional
     public DoctorResponse createDoctor(DoctorRequest request){
         Doctor doctor = doctorMapper.toEntity(request);
         Doctor savedDoctor = doctorRepository.save(doctor);
@@ -46,12 +52,11 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<DoctorResponse> getAllDoctors(){
-        List<Doctor> doctors =  doctorRepository.getAllDoctors();
-        return doctorMapper.toDoctorResponses(doctors);
+    public Page<DoctorResponse> findAll(Pageable pageable ){
+        Page<Doctor> doctors =  doctorRepository.findAll(pageable );
+        return doctorMapper.toPageDoctorResponses(doctors);
     }
     @Override
-    @Transactional
     public DoctorResponse updateDoctor(Long id, DoctorRequest request){
         Doctor doctor = doctorRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Doctor not found"));
         doctor.setName(request.getName());
@@ -60,13 +65,13 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorMapper.toDoctorResponse(updatedDoctor);
     }
     @Override
-    @Transactional
     public void deleteDoctor(Long id){
         Doctor doctor = doctorRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Doctor not found"));
         doctorRepository.delete(doctor);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponse> getAllAppointments() {
         List<Doctor> doctors = doctorRepository.findAll();
                 return doctors
@@ -76,7 +81,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @Transactional
     public void createAppointment(Long doctorId, AppointmentRequest request) {
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()-> new ResourceNotFoundException("Doctor not found"));
         Patient patient = patientRepository.findById(request.getPatientId())
@@ -89,5 +93,15 @@ public class DoctorServiceImpl implements DoctorService {
                 appointmentMapper.toEntity(request, doctor,patient)
         );
         doctorRepository.save(doctor);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("DoctorServiceImpl initialized");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("DoctorServiceImpl destroyed");
     }
 }

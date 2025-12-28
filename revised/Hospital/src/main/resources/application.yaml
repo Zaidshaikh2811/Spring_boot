@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: Hospital
+  profiles:
+    active: dev
+  main:
+    banner-mode: "off"
+    lazy-initialization: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  config:
+    import: optional:classpath:application-secret.yml
+
+logging:
+  level:
+    root: warn
