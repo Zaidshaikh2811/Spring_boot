@@ -16,8 +16,9 @@ import java.util.List;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
-    @EntityGraph(attributePaths = {"appointments", "appointments.patientName"})
-    Page<Doctor> findAll(Pageable pageable);
+//    @EntityGraph(attributePaths = {"appointments", "appointments.patientName"})
+
+            Page<Doctor> findAll(Pageable pageable);
 
 //    @Query("""
 //    SELECT DISTINCT d

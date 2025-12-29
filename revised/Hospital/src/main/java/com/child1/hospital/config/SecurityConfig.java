@@ -33,6 +33,7 @@ public class SecurityConfig {
                             .requestMatchers("/health/**").permitAll()
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("/prometheus").permitAll()
+                            .requestMatchers("/api/v1/doctors/**").permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterBefore(JwtFilter, UsernamePasswordAuthenticationFilter.class);

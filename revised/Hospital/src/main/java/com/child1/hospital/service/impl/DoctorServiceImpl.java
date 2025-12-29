@@ -14,6 +14,8 @@ import com.child1.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,11 +54,13 @@ public class DoctorServiceImpl implements DoctorService , InitializingBean , Dis
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable("doctors")
     public Page<DoctorResponse> findAll(Pageable pageable ){
         Page<Doctor> doctors =  doctorRepository.findAll(pageable );
         return doctorMapper.toPageDoctorResponses(doctors);
     }
     @Override
+    @CachePut(value = "doctors", key = "#id")
     public DoctorResponse updateDoctor(Long id, DoctorRequest request){
         Doctor doctor = doctorRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Doctor not found"));
         doctor.setName(request.getName());

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -33,8 +34,9 @@ public class Doctor {
     @Size(min = 2, max = 100, message = "Specialty can have at most 100 characters")
     private String specialty;
 
-    @Column(name = "appointments")
+
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 20)
     private List<Appointment> appointments;
 
     public void addAppointment(Appointment entity) {

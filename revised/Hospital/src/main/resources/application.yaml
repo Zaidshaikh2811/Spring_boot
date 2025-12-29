@@ -15,6 +15,10 @@ spring:
         format_sql: true
   config:
     import: optional:classpath:application-secret.yml
+  datasource:
+    hikari:
+        maximum-pool-size: 20
+
 
 logging:
   level:
