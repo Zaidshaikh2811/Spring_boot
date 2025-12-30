@@ -35,6 +35,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+<!--        add retry depedency-->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>

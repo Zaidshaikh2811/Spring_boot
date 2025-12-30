@@ -21,8 +21,9 @@ public class JWTUtil {
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
     public String generateToken(String username) {
-        // 1 hour
-        long jwtExpirationInMs = 3600000L;
+        // 1 min = 60000 ms
+        // 1 hour = 3600000 ms
+        long jwtExpirationInMs = 60000L;
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())

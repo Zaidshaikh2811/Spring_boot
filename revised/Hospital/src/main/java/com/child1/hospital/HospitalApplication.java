@@ -7,11 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 import java.util.List;
 import java.util.Optional;
 
-@SpringBootApplication()
+@SpringBootApplication
+@ConfigurationPropertiesScan
 public class HospitalApplication {
 
     DoctorRepository doctorRepository;

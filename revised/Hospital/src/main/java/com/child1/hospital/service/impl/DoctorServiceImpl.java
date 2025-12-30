@@ -3,6 +3,7 @@ package com.child1.hospital.service.impl;
 import com.child1.hospital.dto.request.AppointmentRequest;
 import com.child1.hospital.dto.request.DoctorRequest;
 import com.child1.hospital.dto.response.DoctorResponse;
+import com.child1.hospital.events.GetAllDoctors;
 import com.child1.hospital.exception.ResourceNotFoundException;
 import com.child1.hospital.mapper.AppointmentMapper;
 import com.child1.hospital.mapper.DoctorMapper;
@@ -16,13 +17,13 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class DoctorServiceImpl implements DoctorService , InitializingBean , Dis
     private final PatientRepository patientRepository;
     private final DoctorMapper doctorMapper;
     private final AppointmentMapper appointmentMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public DoctorResponse createDoctor(DoctorRequest request){
@@ -57,6 +59,7 @@ public class DoctorServiceImpl implements DoctorService , InitializingBean , Dis
     @Cacheable("doctors")
     public Page<DoctorResponse> findAll(Pageable pageable ){
         Page<Doctor> doctors =  doctorRepository.findAll(pageable );
+        applicationEventPublisher.publishEvent(new GetAllDoctors());
         return doctorMapper.toPageDoctorResponses(doctors);
     }
     @Override
